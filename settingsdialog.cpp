@@ -17,14 +17,22 @@ SettingsDialog::SettingsDialog(QWidget *parent)
 #endif
     m_ui.intensitySlider->setRange(0, 100);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QSettings settings;
+#else
     QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
+#endif
     m_intensity = settings.value("Crystalizer/intensity", DEFAULT_INTENSITY).toUInt();
     m_ui.intensitySlider->setValue(m_intensity);
 }
 
 void SettingsDialog::accept()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QSettings settings;
+#else
     QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
+#endif
     settings.setValue("Crystalizer/intensity", m_ui.intensitySlider->value());
     QDialog::accept();
 }
