@@ -4,7 +4,11 @@
 
 #include <QMessageBox>
 
+#if (QMMP_VERSION_INT < 0x10700) || (0x20000 <= QMMP_VERSION_INT && QMMP_VERSION_INT < 0x20200)
 const EffectProperties EffectCrystalizerFactory::properties() const
+#else
+EffectProperties EffectCrystalizerFactory::properties() const
+#endif
 {
     EffectProperties properties;
     properties.name = tr("Crystalizer Plugin");
@@ -19,10 +23,17 @@ Effect *EffectCrystalizerFactory::create()
     return new CrystalizerPlugin();
 }
 
+#if (QMMP_VERSION_INT < 0x10700) || (0x20000 <= QMMP_VERSION_INT && QMMP_VERSION_INT < 0x20200)
 void EffectCrystalizerFactory::showSettings(QWidget *parent)
 {
     (new SettingsDialog(parent))->show();
 }
+#else
+QDialog *EffectCrystalizerFactory::createSettings(QWidget *parent)
+{
+    return new SettingsDialog(parent);
+}
+#endif
 
 void EffectCrystalizerFactory::showAbout(QWidget *parent)
 {
