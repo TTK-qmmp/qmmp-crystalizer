@@ -19,10 +19,7 @@ CrystalizerPlugin::CrystalizerPlugin()
 CrystalizerPlugin::~CrystalizerPlugin()
 {
     m_instance = nullptr;
-    if(m_buffer)
-    {
-        delete[] m_buffer;
-    }
+    delete[] m_buffer;
 }
 
 void CrystalizerPlugin::applyEffect(Buffer *b)
@@ -46,11 +43,8 @@ void CrystalizerPlugin::configure(quint32 freq, ChannelMap map)
     if(channels() != map.count() || sampleRate() != freq)
     {
         Effect::configure(freq, map);
-        if(m_buffer)
-        {
-            delete[] m_buffer;
-        }
 
+        delete[] m_buffer;
         m_buffer = new float[channels()]{0};
     }
 
